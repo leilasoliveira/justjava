@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -25,12 +26,14 @@ public class MainActivity extends AppCompatActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
+        EditText nameEditText = (EditText) findViewById(R.id.name_edit_text);
+        String name = nameEditText.getText().toString();
         CheckBox whippedCreamCheckbox = (CheckBox) findViewById(R.id.whipped_cream_checkbox);
         boolean hasWhippedCream = whippedCreamCheckbox.isChecked();
         CheckBox chocolateCheckbox = (CheckBox) findViewById(R.id.chocolate_checkbox);
         boolean hasChocolate = chocolateCheckbox.isChecked();
         int price = calculatePrice();
-        String priceMessage = createOrderSummary(price, hasChocolate, hasWhippedCream);
+        String priceMessage = createOrderSummary(price, hasChocolate, hasWhippedCream, name);
         displayMessage(priceMessage);
     }
 
@@ -68,13 +71,14 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Create summary of the order.
      *
-     * @param addWhippedCream is whether or not the user wants whipped cream topping
+     * @param priceOfOrder of the order
      * @param addChocolate is whether or not the user wants whipped cream topping
-     * @param price of the order
+     * @param addWhippedCream is whether or not the user wants whipped cream topping
+     * @param name of the costumer
      * @return text summary
      */
-    private String createOrderSummary(int priceOfOrder, boolean addChocolate, boolean addWhippedCream){
-        String message = "Name: Kaptain Kunal";
+    private String createOrderSummary(int priceOfOrder, boolean addChocolate, boolean addWhippedCream, String name){
+        String message = "Name: " + name;
         message += "\nAdd whipped cream? " + addWhippedCream;
         message += "\nAdd chocolate? " + addChocolate;
         message += "\nQuantity: " + quantity;
