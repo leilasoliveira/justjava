@@ -1,8 +1,9 @@
 package com.example.android.justjava;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.text.NumberFormat;
@@ -10,7 +11,7 @@ import java.text.NumberFormat;
 /**
  * This app displays an order form to order coffee.
  */
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
 
     int quantity = 0;
 
@@ -24,8 +25,10 @@ public class MainActivity extends ActionBarActivity {
      * This method is called when the order button is clicked.
      */
     public void submitOrder(View view) {
+        CheckBox whippedCream = (CheckBox) findViewById(R.id.whipped_cream_checkbox);
+        boolean addWhippedCream = whippedCream.isChecked();
         int price = calculatePrice();
-        String priceMessage = createOrderSummary(price);
+        String priceMessage = createOrderSummary(price, addWhippedCream);
         displayMessage(priceMessage);
     }
 
@@ -60,11 +63,12 @@ public class MainActivity extends ActionBarActivity {
         return quantity * 5;
     }
 
-    private String createOrderSummary(int priceOfOrder){
+    private String createOrderSummary(int priceOfOrder, boolean addWhippedCream){
         String message = "Name: Kaptain Kunal";
-        message = message + "\nQuantity: " + quantity;
-        message = message + "\nTotal: R$" + priceOfOrder;
-        message = message + "\nThank you!";
+        message += "\nAdd whipped cream? " + addWhippedCream;
+        message += "\nQuantity: " + quantity;
+        message += "\nTotal: R$" + priceOfOrder;
+        message += "\nThank you!";
         return message;
     }
 }
