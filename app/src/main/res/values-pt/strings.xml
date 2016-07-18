@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="app_name">Just Java</string>
+    <string name="chocolate">Chocolate</string>
+    <string name="initial_quantity_value">2</string>
+    <string name="name">Nome</string>
+    <string name="order">Pedir</string>
+    <string name="order_summary_chocolate">Adicionar chocolate? <xliff:g example="true" id="addChocolate">%b</xliff:g></string>
+    <string name="order_summary_email_subject">Pedido do JustJava para <xliff:g example="Amy" id="name">%s</xliff:g></string>
+    <string name="order_summary_name">Nome: <xliff:g example="Amy" id="name">%s</xliff:g></string>
+    <string name="order_summary_price">Total: <xliff:g example="R$10" id="price">%s</xliff:g></string>
+    <string name="order_summary_quantity">Quantidade: <xliff:g example="2" id="quantity">%d</xliff:g></string>
+    <string name="order_summary_whipped_cream">Adicionar Chantilly? <xliff:g example="true" id="addWhippedCream">%b</xliff:g></string>
+    <string name="quantity">Quantidade</string>
+    <string name="thank_you">Obrigado!</string>
+    <string name="toppings">Coberturas</string>
+    <string name="whipped_cream">Chantilly</string>
+    <string name="order_summary">Resumo do Pedido</string>
+    <string name="error_more_than_100_coffees">Você não pode ter mais de 100 cafés</string>
+    <string name="error_less_than_1_coffee">Você não pode ter menos de 1 café</string>
+</resources>

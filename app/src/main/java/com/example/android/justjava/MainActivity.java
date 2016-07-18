@@ -1,11 +1,14 @@
 package com.example.android.justjava;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.NumberFormat;
 
@@ -14,7 +17,7 @@ import java.text.NumberFormat;
  */
 public class MainActivity extends AppCompatActivity {
 
-    int quantity = 0;
+    int quantity = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,17 +35,37 @@ public class MainActivity extends AppCompatActivity {
         boolean hasWhippedCream = whippedCreamCheckbox.isChecked();
         CheckBox chocolateCheckbox = (CheckBox) findViewById(R.id.chocolate_checkbox);
         boolean hasChocolate = chocolateCheckbox.isChecked();
-        int price = calculatePrice();
+        int price = calculatePrice(hasWhippedCream, hasChocolate);
         String priceMessage = createOrderSummary(price, hasChocolate, hasWhippedCream, name);
-        displayMessage(priceMessage);
+        //displayMessage(priceMessage);
+
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+        intent.putExtra(Intent.EXTRA_EMAIL, "leila.s.oliveira@hotmail.com");
+        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.order_summary_email_subject, name));
+        intent.putExtra(Intent.EXTRA_TEXT, priceMessage);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        }
+
     }
 
     public void increment(View view){
+        if(quantity == 100){
+            Toast.makeText(this, R.string.error_more_than_100_coffees, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         quantity = quantity + 1;
         displayQuantity(quantity);
     }
 
     public void decrement(View view){
+        if(quantity == 1){
+            Toast.makeText(this, R.string.error_less_than_1_coffee, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         quantity = quantity - 1;
         displayQuantity(quantity);
     }
@@ -64,8 +87,28 @@ public class MainActivity extends AppCompatActivity {
         quantityTextView.setText("" + number);
     }
 
-    private int calculatePrice(){
-        return quantity * 5;
+    /**
+     * Calculate price of order.
+     *
+     * @param hasWhippedCream
+     * @param hasChocolate
+     * @return price of order
+     * */
+    private int calculatePrice(boolean hasWhippedCream, boolean hasChocolate){
+        int priceOfOneCup = 5;
+        int priceWhippedCream = 1;
+        int priceChocolate = 2;
+
+        int total = priceOfOneCup;
+        if(hasWhippedCream){
+            total += priceWhippedCream;
+        }
+        if(hasChocolate){
+            total += priceChocolate;
+        }
+
+        total = total * quantity;
+        return total;
     }
 
     /**
@@ -78,12 +121,12 @@ public class MainActivity extends AppCompatActivity {
      * @return text summary
      */
     private String createOrderSummary(int priceOfOrder, boolean addChocolate, boolean addWhippedCream, String name){
-        String message = "Name: " + name;
-        message += "\nAdd whipped cream? " + addWhippedCream;
-        message += "\nAdd chocolate? " + addChocolate;
-        message += "\nQuantity: " + quantity;
-        message += "\nTotal: R$" + priceOfOrder;
-        message += "\nThank you!";
+        String message = getString(R.string.order_summary_name, name);
+        message += "\n" + getString(R.string.order_summary_whipped_cream, addWhippedCream);
+        message += "\n" + getString(R.string.order_summary_chocolate, addChocolate);
+        message += "\n" + getString(R.string.order_summary_quantity, quantity);
+        message += "\n" + getString(R.string.order_summary_price, priceOfOrder);
+        message += "\n" + getString(R.string.thank_you);
         return message;
     }
 }
